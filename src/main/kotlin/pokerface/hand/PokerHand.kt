@@ -4,6 +4,31 @@ import pokerface.card.Card
 
 class PokerHand private constructor(private val cards: List<Card>) {
 
+    enum class Rank {
+        FLUSH, STRAIGHT, STRAIGHT_FLUSH, ROYAL_FLUSH, HIGH_CARD, FULL_HOUSE, FOUR_OF_A_KIND, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND
+    }
+
+    fun rank(): Rank {
+        val valueGroups = this.cards.groupBy { it.value }
+        val maxGroupSize = valueGroups.values.maxBy { it.size }!!.size
+        return when (valueGroups.size) {
+            4 -> Rank.ONE_PAIR
+            3 -> if(maxGroupSize == 3) Rank.THREE_OF_A_KIND else Rank.TWO_PAIR
+            2 -> if(maxGroupSize == 4) Rank.FOUR_OF_A_KIND else Rank.FULL_HOUSE
+            5 -> if(this.isConsecutive()){
+                if(this.isSameSuit()){
+                    if (cards.any { it.value == Card.ACE } && cards.any { it.value == Card.KING })
+                        Rank.ROYAL_FLUSH
+                    else Rank.STRAIGHT_FLUSH
+                }
+                else Rank.STRAIGHT
+            }
+            else if (this.isSameSuit()) Rank.FLUSH
+            else Rank.HIGH_CARD
+            else -> throw RuntimeException("All five cards can not be the same")
+        }
+    }
+
     fun isSameSuit(): Boolean = with(cards[0]) { cards.all { it.suit === this.suit } }
 
     fun isConsecutive(): Boolean {
