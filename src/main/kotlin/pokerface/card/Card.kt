@@ -21,7 +21,7 @@ class Card private constructor(val value: Int, val suit: Suit) {
 
         fun parse(cardRepresentation: String): Card {
             if(cardRepresentation.length != 2){
-                throw RuntimeException()
+                throw CardParseException("Can not parse string '$cardRepresentation', must be exactly 2 characters long")
             }
             return Card.from(valueFrom(cardRepresentation[0]), suitFrom(cardRepresentation[1]))
         }

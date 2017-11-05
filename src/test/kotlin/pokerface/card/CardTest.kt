@@ -13,8 +13,13 @@ class CardTest {
     var exceptions = ExpectedException.none()
 
     @Test
-    fun `should not fail card creation when value in range`(){
-        (Card.ACE..Card.KING).forEach { Card.from(it, Card.Suit.CLUBS) }
+    fun `should create valid cards when value in range`(){
+        (Card.ACE..Card.KING).forEach {
+            validValue ->
+            val card = Card.from(validValue, Card.Suit.CLUBS)
+            assertEquals(validValue, card.value)
+            assertEquals(Card.Suit.CLUBS, card.suit)
+        }
     }
 
     @Test
@@ -29,6 +34,13 @@ class CardTest {
         exceptions.expect(IllegalArgumentException::class.java)
         exceptions.expectMessage("Card value may only be between Ace (${Card.ACE}) and King (${Card.KING}), provided value 15 is invalid")
         Card.from(15, Card.Suit.CLUBS)
+    }
+
+    @Test
+    fun `should fail to parse card when invalid length string`(){
+        exceptions.expect(Card.CardParseException::class.java)
+        exceptions.expectMessage("Can not parse string 'PHQ', must be exactly 2 characters long")
+        Card.parse("PHQ")
     }
 
     @Test
