@@ -264,14 +264,14 @@ class PokerHandTest {
 
     @Test
     fun `should rank as royal flush when same suit and consecutive when ace high`(){
-        val hand = PokerHand.from(listOf(
+        val rank = PokerHand.from(listOf(
                 Card.from(Card.ACE, Card.Suit.HEARTS)
                 ,Card.from(Card.JACK, Card.Suit.HEARTS)
                 ,Card.from(Card.KING, Card.Suit.HEARTS)
                 ,Card.from(Card.QUEEN, Card.Suit.HEARTS)
                 ,Card.from(10, Card.Suit.HEARTS)
-        ))
-        assertEquals(PokerHand.Rank.ROYAL_FLUSH, hand.rank())
+        )).rank()
+        assertEquals(PokerHand.Rank.ROYAL_FLUSH, rank)
     }
 
 }
