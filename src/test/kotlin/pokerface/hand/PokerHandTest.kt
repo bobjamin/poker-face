@@ -1,10 +1,14 @@
 package pokerface.hand
 
 import junit.framework.TestCase.*
+import org.hamcrest.Matcher
+import org.hamcrest.core.IsEqual
+import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import pokerface.card.Card
+import java.io.File
 
 class PokerHandTest {
 
@@ -272,6 +276,49 @@ class PokerHandTest {
                 ,Card.from(10, Card.Suit.HEARTS)
         )).rank()
         assertEquals(PokerHand.Rank.ROYAL_FLUSH, rank)
+    }
+
+    @Test
+    fun `should parse valid hand string`(){
+        val hand = PokerHand.parse("AS JC KH TD 9H")
+        val aceOfSpades = hand[0]
+        val jackOfClubs = hand[1]
+        val kingOfHearts = hand[2]
+        val tenOfDiamonds = hand[3]
+        val nineOfHearts = hand[4]
+        assertEquals(Card.ACE, aceOfSpades.value)
+        assertEquals(Card.Suit.SPADES, aceOfSpades.suit)
+        assertEquals(Card.JACK, jackOfClubs.value)
+        assertEquals(Card.Suit.CLUBS, jackOfClubs.suit)
+        assertEquals(Card.KING, kingOfHearts.value)
+        assertEquals(Card.Suit.HEARTS, kingOfHearts.suit)
+        assertEquals(10, tenOfDiamonds.value)
+        assertEquals(Card.Suit.DIAMONDS, tenOfDiamonds.suit)
+        assertEquals(9, nineOfHearts.value)
+        assertEquals(Card.Suit.HEARTS, nineOfHearts.suit)
+    }
+
+    @Test
+    fun `should throw parse exception when invalid card in hand string`(){
+        val pokerHandExceptionMessage = "Cannot parse Poker hand because Character 'U' is not a valid card value"
+        exceptions.expect(PokerHand.PokerHandParseException::class.java)
+        exceptions.expectCause(IsInstanceOf.instanceOf(Card.CardParseException::class.java))
+        exceptions.expectMessage(pokerHandExceptionMessage)
+        PokerHand.parse("AS JC KH TD UH")
+    }
+
+    @Test
+    fun `should throw parse exception when string too long`(){
+        exceptions.expect(PokerHand.PokerHandParseException::class.java)
+        exceptions.expectMessage("Cannot parse string 'AS JC KH TD UHflk;fjaslk', must be exactly 14 characters long")
+        PokerHand.parse("AS JC KH TD UHflk;fjaslk")
+    }
+
+    @Test
+    fun `should throw parse exception when string is valid length but incorrect`(){
+        exceptions.expect(PokerHand.PokerHandParseException::class.java)
+        exceptions.expectMessage("Cannot parse string 'ASH_JC KH TD U', incorrect representation of cards in string")
+        PokerHand.parse("ASH_JC KH TD U")
     }
 
 }

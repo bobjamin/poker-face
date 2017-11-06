@@ -6,6 +6,10 @@ class PokerHand private constructor(private val cards: List<Card>) {
 
     enum class Rank {
          FLUSH, STRAIGHT, STRAIGHT_FLUSH, ROYAL_FLUSH, HIGH_CARD, FULL_HOUSE, FOUR_OF_A_KIND, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND;
+
+        override fun toString(): String {
+            return super.toString().replace('_', ' ').toLowerCase().capitalize()
+        }
     }
 
     fun rank(): Rank {
@@ -52,6 +56,10 @@ class PokerHand private constructor(private val cards: List<Card>) {
         return max - min == cards.size - 1
     }
 
+    operator fun get(index: Int): Card {
+        return cards[index]
+    }
+
     companion object {
 
         fun from(cards: List<Card>): PokerHand {
@@ -64,8 +72,30 @@ class PokerHand private constructor(private val cards: List<Card>) {
             return PokerHand(cards)
         }
 
+        fun parse(handRepresentation: String): PokerHand {
+            if(handRepresentation.length != 14){
+                throw PokerHandParseException("Cannot parse string '$handRepresentation', must be exactly 14 characters long")
+            }
+            val cardRepresentations = handRepresentation.split(' ')
+            if(cardRepresentations.size != 5){
+                throw PokerHandParseException("Cannot parse string '$handRepresentation', incorrect representation of cards in string")
+            }
+            try{
+                val cards = cardRepresentations.map { Card.parse(it) }
+                return PokerHand.from(cards)
+            }
+            catch(cardParseException: Card.CardParseException){
+                throw PokerHandParseException("Cannot parse Poker hand", cardParseException)
+            }
+        }
+
         private fun fromSingleDeck(cards: List<Card>): Boolean {
             return cards.distinct().size == cards.size
         }
+    }
+
+    class PokerHandParseException : RuntimeException {
+        constructor(message: String): super(message)
+        constructor(message: String, cause: Exception): super("$message because ${cause.message}", cause)
     }
 }
