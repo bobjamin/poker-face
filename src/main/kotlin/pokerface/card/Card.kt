@@ -6,6 +6,18 @@ class Card private constructor(val value: Int, val suit: Suit) {
         HEARTS, SPADES, CLUBS, DIAMONDS
     }
 
+    override fun toString(): String {
+        val valueString = when(value){
+            ACE -> "Ace"
+            KING -> "King"
+            QUEEN -> "Queen"
+            JACK -> "Jack"
+            else -> value.toString()
+        }
+        val suitString = suit.toString().toLowerCase().capitalize()
+        return "$valueString of $suitString"
+    }
+
     companion object {
         val ACE = 1
         val KING = 13

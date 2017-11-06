@@ -1,14 +1,11 @@
 package pokerface.hand
 
 import junit.framework.TestCase.*
-import org.hamcrest.Matcher
-import org.hamcrest.core.IsEqual
 import org.hamcrest.core.IsInstanceOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import pokerface.card.Card
-import java.io.File
 
 class PokerHandTest {
 
