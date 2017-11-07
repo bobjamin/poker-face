@@ -16,7 +16,7 @@ fun main(args: Array<String>){
             }
         }
     }
-    catch(ex: IllegalArgumentException){
+    catch(ex: Exception){
         System.err.println("ERROR: ${ex.message}")
     }
 }
