@@ -52,9 +52,13 @@ data class Card constructor(val value: Int, val suit: Suit) {
         private fun suitFrom(character: Char): Suit {
             return when(character.toUpperCase()){
                 'H' -> Suit.HEARTS
+                '♥' -> Suit.HEARTS
                 'D' -> Suit.DIAMONDS
+                '♦' -> Suit.DIAMONDS
                 'S' -> Suit.SPADES
+                '♠' -> Suit.SPADES
                 'C' -> Suit.CLUBS
+                '♣' -> Suit.CLUBS
                 else -> throw CardParseException("Character '$character' is not a valid suit value")
             }
         }
