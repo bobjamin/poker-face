@@ -13,7 +13,7 @@ object PokerHandPrinter {
             try {
                 val rank = PokerHand.parse(pokerHandString).rank()
                 outputPrintStream.println("$pokerHandString => $rank")
-            } catch (handParseException: PokerHand.PokerHandParseException) {
+            } catch (handParseException: Exception) {
                 errorPrintStream.println("$pokerHandString => ERROR: ${handParseException.message}")
             }
         }

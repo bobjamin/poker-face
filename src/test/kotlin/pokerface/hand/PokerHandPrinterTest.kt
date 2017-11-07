@@ -36,13 +36,13 @@ class PokerHandPrinterTest {
         val expectedSuccessOutput =
                 "AS KS QS JS TS => Royal flush\n" +
                 "3C 3D 3H 3S 4D => Four of a kind\n" +
-                "2C 4C 9C TC QC => Flush\n" +
                 "4H 4D 4S AC KD => Three of a kind\n" +
                 "7C 7S KD KS QH => Two pair\n" +
                 "2D 8D 9C TS KH => High card\n"
         val expectedErrorOutput =
                 "AH 2H 1H 4H 5H => ERROR: Cannot parse Poker hand because Character '1' is not a valid card value\n" +
                 "7P 7D 7C AS AC => ERROR: Cannot parse Poker hand because Character 'P' is not a valid suit value\n" +
+                "2C 4C 9C TC TC => ERROR: A Poker hand can only be made from a single deck but there are duplicate cards in this hand\n" +
                 "AH JS QD TD IS => ERROR: Cannot parse Poker hand because Character 'I' is not a valid card value\n" +
                 "AC AD 7C 9C 10C => ERROR: Cannot parse string 'AC AD 7C 9C 10C', must be exactly 14 characters long\n"
         assertEquals(expectedSuccessOutput, testOutputStream.toString())
