@@ -87,7 +87,7 @@ class CardTest {
                                         "C" to Card.Suit.CLUBS)
         val validValue = "A"
         validSuitMappings.forEach { stringSuit, expectedSuit ->
-            println("$stringSuit$validValue should be $expectedSuit")
+            println("$validValue$stringSuit should be $expectedSuit")
             assertEquals(expectedSuit, Card.parse("$validValue$stringSuit").suit)
         }
     }
