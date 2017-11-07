@@ -3,9 +3,7 @@ package pokerface.hand
 import java.io.InputStream
 import java.io.PrintStream
 
-class PokerHandPrinter {
-
-    companion object {
+object PokerHandPrinter {
 
         fun printHandRanksFrom(inputStream: InputStream, outputPrintStream: PrintStream = System.out, errorPrintStream: PrintStream = System.err){
             inputStream.bufferedReader().useLines { lines -> lines.forEach { printHandRankFrom(it, outputPrintStream, errorPrintStream) } }
@@ -28,5 +26,4 @@ class PokerHandPrinter {
                                         " | |    | |__| | . \\| |____| | \\ \\  | | / ____ \\ |____| |____ \n" +
                                         " |_|     \\____/|_|\\_\\______|_|  \\_\\ |_|/_/    \\_\\_____|______|")
         }
-    }
 }

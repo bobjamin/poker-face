@@ -1,6 +1,12 @@
 package pokerface.card
 
-class Card private constructor(val value: Int, val suit: Suit) {
+data class Card constructor(val value: Int, val suit: Suit) {
+
+    init {
+        if(value !in ACE..KING){
+            throw IllegalArgumentException("Card value may only be between Ace ($ACE) and King ($KING), provided value $value is invalid")
+        }
+    }
 
     enum class Suit {
         HEARTS, SPADES, CLUBS, DIAMONDS
@@ -24,18 +30,11 @@ class Card private constructor(val value: Int, val suit: Suit) {
         val QUEEN = 12
         val JACK = 11
 
-        fun from(value: Int, suit: Suit): Card {
-            if(value !in ACE..KING){
-                throw IllegalArgumentException("Card value may only be between Ace ($ACE) and King ($KING), provided value $value is invalid")
-            }
-            return Card(value, suit)
-        }
-
         fun parse(cardRepresentation: String): Card {
             if(cardRepresentation.length != 2){
                 throw CardParseException("Can not parse string '$cardRepresentation', must be exactly 2 characters long")
             }
-            return Card.from(valueFrom(cardRepresentation[0]), suitFrom(cardRepresentation[1]))
+            return Card(valueFrom(cardRepresentation[0]), suitFrom(cardRepresentation[1]))
         }
 
         private fun valueFrom(character: Char): Int {

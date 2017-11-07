@@ -10,13 +10,13 @@ class CardTest {
 
     @Rule
     @JvmField
-    var exceptions = ExpectedException.none()
+    var exceptions = ExpectedException.none()!!
 
     @Test
     fun `should create valid cards when value in range`(){
         (Card.ACE..Card.KING).forEach {
             validValue ->
-            val card = Card.from(validValue, Card.Suit.CLUBS)
+            val card = Card(validValue, Card.Suit.CLUBS)
             assertEquals(validValue, card.value)
             assertEquals(Card.Suit.CLUBS, card.suit)
         }
@@ -26,14 +26,14 @@ class CardTest {
     fun `should fail card creation when value too low`(){
         exceptions.expect(IllegalArgumentException::class.java)
         exceptions.expectMessage("Card value may only be between Ace (${Card.ACE}) and King (${Card.KING}), provided value 0 is invalid")
-        Card.from(0, Card.Suit.HEARTS)
+        Card(0, Card.Suit.HEARTS)
     }
 
     @Test
     fun `should fail card creation when value too high`(){
         exceptions.expect(IllegalArgumentException::class.java)
         exceptions.expectMessage("Card value may only be between Ace (${Card.ACE}) and King (${Card.KING}), provided value 15 is invalid")
-        Card.from(15, Card.Suit.CLUBS)
+        Card(15, Card.Suit.CLUBS)
     }
 
     @Test
