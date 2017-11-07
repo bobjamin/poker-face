@@ -34,15 +34,19 @@ class PokerHand private constructor(private val cards: List<Card>) {
 
     fun isSameSuit(): Boolean = with(cards[0]) { cards.all { it.suit === this.suit } }
 
-    fun isConsecutive(): Boolean {
+    fun isConsecutive(): Boolean{
         var max = Integer.MIN_VALUE
         var min = Integer.MAX_VALUE
         var nextMin = Integer.MAX_VALUE
-        for(card in cards){
+        for(i in 0 until cards.size){
+            val card = cards[i]
             if(card.value < nextMin && card.value > min){
                 nextMin = card.value
             }
             if(card.value < min){
+                if(i == cards.size-1 && card.value == Card.ACE){
+                    nextMin = min;
+                }
                 min = card.value
             }
             if(card.value > max){

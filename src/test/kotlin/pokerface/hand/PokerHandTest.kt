@@ -265,13 +265,25 @@ class PokerHandTest {
     }
 
     @Test
-    fun `should rank as royal flush when same suit and consecutive when ace high`(){
+    fun `should rank as royal flush when same suit and consecutive when ace high last`(){
         val rank = PokerHand.from(listOf(
-                Card(Card.ACE, Card.Suit.HEARTS)
+                Card(Card.JACK, Card.Suit.HEARTS)
+                ,Card(Card.KING, Card.Suit.HEARTS)
+                ,Card(10, Card.Suit.HEARTS)
+                ,Card(Card.QUEEN, Card.Suit.HEARTS)
+                ,Card(Card.ACE, Card.Suit.HEARTS)
+        )).rank()
+        assertEquals(PokerHand.Rank.ROYAL_FLUSH, rank)
+    }
+
+    @Test
+    fun `should rank as royal flush when same suit and consecutive when ace high first`(){
+        val rank = PokerHand.from(listOf(
+                 Card(Card.ACE, Card.Suit.HEARTS)
                 ,Card(Card.JACK, Card.Suit.HEARTS)
                 ,Card(Card.KING, Card.Suit.HEARTS)
-                ,Card(Card.QUEEN, Card.Suit.HEARTS)
                 ,Card(10, Card.Suit.HEARTS)
+                ,Card(Card.QUEEN, Card.Suit.HEARTS)
         )).rank()
         assertEquals(PokerHand.Rank.ROYAL_FLUSH, rank)
     }
