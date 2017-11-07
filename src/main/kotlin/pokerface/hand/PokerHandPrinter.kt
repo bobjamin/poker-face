@@ -14,9 +14,9 @@ class PokerHandPrinter {
         fun printHandRankFrom(pokerHandString: String, outputPrintStream: PrintStream = System.out, errorPrintStream: PrintStream = System.err) {
             try {
                 val rank = PokerHand.parse(pokerHandString).rank()
-                outputPrintStream.println("$pokerHandString -> $rank")
+                outputPrintStream.println("$pokerHandString => $rank")
             } catch (handParseException: PokerHand.PokerHandParseException) {
-                errorPrintStream.println("$pokerHandString -> ERROR: ${handParseException.message}")
+                errorPrintStream.println("$pokerHandString => ERROR: ${handParseException.message}")
             }
         }
 
